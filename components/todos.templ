@@ -1,0 +1,153 @@
+package components
+
+import (
+"morethancoder/hello_gotham/models"
+"fmt"
+"strconv"
+)
+script toggleHidden(id string) {
+    var element = document.getElementById(id);
+    element.classList.toggle('hidden');
+}
+
+script collabse(id string) {
+    var element = document.getElementById(id);
+} 
+
+templ AddTodoModal() {
+<div id="addtodomodal" 
+    class="hidden transition transition-all ease-out delay-100 duration-300 
+     flex items-center justify-center w-screen h-screen ">
+    <div onclick={ toggleHidden("addtodomodal") } 
+        class="bg-dark/80 fixed top-0 left-0 z-10 w-full h-full"
+        ></div>
+    <div  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-20 bg-slate-700/40 
+        backdrop-blur-sm ring-2 ring-light/60  w-2/5   p-10 rounded-lg">
+        <span class="text-2xl text-yellow text-center mb-8 font-bold capitalize block">add new todo</span>
+        <form hx-post="/todos" hx-target="#view" hx-swap="innerHTML" title="Add New Todo"
+            hx-vals='{ "type": "create" }'
+            class="flex flex-col w-full h-full items-start justify-center gap-4">
+            <label for="title" class="after:content-['*'] after:ml-0.5 after:text-yellow 
+                text-lg font-medium capitalize">what to do?</label>
+            <input type="text"  placeholder="Walk My Dog..." name="title" required maxlength="255"
+            class="peer w-full rounded-md focus:ring-2 focus:ring-yellow focus:caret-yellow focus:outline-none
+            py-2 px-4 bg-slate-600 caret-pink-500 placeholder:text-slate-400 placeholder:italic" />
+            <p class="mt-2 invisible peer-invalid:visible text-yellow text-sm">
+            Please provide a title.
+            </p>
+            <label for="text" class="after:content-['(optional)'] after:text-xs
+                after:normal-case after:ml-0.5 after:text-yellow
+                text-lg font-medium capitalize">description: </label>
+            <textarea name="text" placeholder="the vally of the shadows of death..." 
+                class="placeholder:text-slate-400
+              focus:ring-2 focus:ring-yellow focus:caret-yellow focus:outline-none 
+              placeholder:italic bg-slate-600 w-full h-32 rounded-md py-2 px-4"></textarea>
+            <div class="flex flex-col items-end justify-center w-full mt-8">
+                <button type="submit" class="text-yellow hover:text-pink cursor-pointer w-16 h-16">
+                    @PlusIcon()
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+}
+
+templ TodoItem(item models.TodoInstance) {
+    <li id={strconv.Itoa(item.ID)} class="mb-4 relative">
+        <form hx-post="/todos" hx-target="#view" hx-swap="innerHTML" title="Update Todo"
+            hx-vals={fmt.Sprintf(`{ "type": "update", "id": "%d" }`, item.ID)}>
+
+            <div class="bg-slate-800  transition duration-100 ease-in-out
+            rounded-lg flex-row items-center justify-center pt-20 py-8 px-10">
+
+            <label for="title" class="after:content-['*'] after:ml-0.5 after:text-yellow 
+                text-lg font-medium capitalize">title 
+            </label>
+
+            <input type="text"  placeholder="Updated title..." name="title" required maxlength="255"
+             class="peer w-full rounded-md focus:ring-2 focus:ring-yellow focus:caret-yellow focus:outline-none
+            py-2 px-4 bg-slate-600 caret-pink-500 placeholder:text-slate-400 placeholder:italic"
+                value={item.Title}
+            /> 
+            <p class="mt-2 invisible peer-invalid:visible text-yellow text-sm">
+            Please provide a title.
+            </p>
+
+            <label for="text" class="after:content-['(optional)'] after:text-xs
+            after:normal-case after:ml-0.5 after:text-yellow
+            text-lg font-medium capitalize">description: </label>
+            <textarea maxlength="255" class="placeholder:text-slate-400
+          focus:ring-2 focus:ring-yellow focus:caret-yellow focus:outline-none 
+          placeholder:italic bg-slate-600 w-full h-32 rounded-md py-2 px-4" 
+                name="text" placeholder="updated describtion here...">
+                {item.Text}
+            </textarea>
+            </div>
+            <button class="cursor-pointer text-gray h-8 w-8 absolute top-8 right-10" type="submit" >
+                @CrossIcon()
+            </button>
+        </form> 
+    </li>
+
+} 
+
+templ Todos(data []models.TodoInstance) {
+    if len(data) == 0 {
+    <div class="flex w-full items-center justify-center">
+        <button onclick={ toggleHidden("addtodomodal") } class="button bg-pink text-base px-4">
+        Add New
+        </button>
+    </div>
+        } else {
+    <ul>
+         <div class="flex  sticky top-0 bg-dark py-6">
+            <h1 class="text-xl text-yellow grow font-medium uppercase py-2">todos</h1>
+            <button onclick={ toggleHidden("addtodomodal") } class="button bg-pink text-base px-4">add</button>
+        </div>
+
+    for _, item := range data {
+    <li id={"todo_" + strconv.Itoa(item.ID)} class="mb-4 relative">
+        <div  class="hover:bg-slate-700 bg-slate-800 transition duration-100 ease-in-out
+            rounded-lg flex-row items-center justify-center py-8 px-10">
+            <input type="checkbox" class=" appearance-none accent-pink peer 
+            w-5 h-5 rounded-sm ring-2 ring-pink mr-2 checked:bg-pink cursor-pointer" />
+            <span class="capitalize text-2xl font-medium mb-2 decoration-solid 
+                peer-checked:line-through peer-checked:text-light/80 peer-checked:italic 
+                decoration-2 decoration-light/80">
+                {item.Title}
+            </span>
+            <div class="peer-checked:hidden flex flex-col gap-1 mt-2 ">
+                <span class="text-yellow text-xs font-light">
+                    {item.Date.Local().Format("02/01/2006 03:04 PM")}
+                </span>
+                <p class="truncate ...">
+                    {item.Text}
+                </p>
+            </div>
+        </div>
+        <button class="cursor-pointer absolute top-8 right-10 text-gray h-8 w-8"
+            hx-post="/todos" hx-target={fmt.Sprintf(`#todo_%s`, strconv.Itoa(item.ID))}
+            hx-swap="innerHTML"
+            hx-vals={fmt.Sprintf(`{ "type": "open", "id": "%d" }`, item.ID)}>
+            @ThreeDotsIcon()
+        </button>
+        <button class="cursor-pointer text-pink h-8 w-8 absolute top-8 right-20" 
+            hx-post="/todos" hx-target="#view" hx-swap="innerHTML"             
+            hx-vals={fmt.Sprintf(`{ "type": "delete", "id": "%d" }`, item.ID)} >
+            @CrossIcon()
+        </button>
+    </li>
+    }
+</ul>
+}
+}
+
+templ TodosView(data []models.TodoInstance) {
+@Header("/todos")
+<div class="flex flex-col items-center justify-center h-screen">
+    <div class="w-11/12 lg:w-9/12 xl:w-1/3 flex-col  max-h-[600px] overflow-y-auto px-6 ">
+            @AddTodoModal()
+            @Todos(data)
+    </div>
+</div>
+}

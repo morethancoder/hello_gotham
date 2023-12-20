@@ -1,0 +1,31 @@
+package components
+
+func getClass(c, t string) string {
+if c == t {
+    return "nav-item selected"
+    }
+return "nav-item"
+}
+
+
+templ Header(currentRoute string) {
+<header class="fixed z-50 h-[82px] w-full pt-[32px] pb-[16px]">
+    <div class=" container mx-auto flex items-end justify-center">
+        <!-- Logo or Branding -->
+        <div class="mr-[32px]">
+            @Logo()
+        </div>
+        <!-- Navigation Links -->
+        <nav class="space-x-[32px] ">
+            <a hx-get="/" hx-push-url="true" hx-target="#view" hx-trigger="click" 
+                class={getClass(currentRoute, "/")} >Home</a>
+            <a hx-get="/about" hx-push-url="true" hx-target="#view" hx-trigger="click" 
+                class={getClass(currentRoute, "/about")}>About</a>
+            <a hx-get="/counter" hx-push-url="true" hx-target="#view" hx-trigger="click" 
+                class={getClass(currentRoute, "/counter")}>Counter</a>
+            <a hx-get="/todos" hx-push-url="true" hx-target="#view" hx-trigger="click" 
+                class={getClass(currentRoute, "/todos")}>Todos</a>
+        </nav>
+    </div>
+</header>
+}

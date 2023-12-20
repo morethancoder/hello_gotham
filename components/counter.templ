@@ -1,0 +1,27 @@
+package components
+
+import "strconv"
+
+
+templ counter(title, cl string, count int ) {
+<div class="w-72 p-8 rounded-lg border border-slate-500 flex-col justify-center items-center gap-4 inline-flex">
+    <div class="text-center text-light text-5xl font-bold  uppercase">{strconv.Itoa(count)}</div>
+    <div class="text-center text-light text-2xl font-medium capitalize">{title}</div>
+    <button 
+        class={`button ` + cl}
+        hx-post="/counter"
+        hx-target="#view"
+        hx-swap="innerHTML"
+        hx-vals={`{"pressed":"` + title +`"}`}
+        >+1</button>
+</div>
+
+}
+
+templ CounterView(global,session int) {
+@Header("/counter")
+<div class="w-screen h-screen  justify-center items-center gap-8 inline-flex">
+    @counter("global", "bg-sky-500 text-3xl", global)
+    @counter("session", "bg-pink text-3xl" , session)
+</div>
+}

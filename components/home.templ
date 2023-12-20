@@ -1,0 +1,15 @@
+package components
+
+templ Time(time string) {
+<div class="text-center  text-[64px] font-medium capitalize"
+    hx-post="/time" hx-swap="innerHTML" hx-trigger="load delay:1s"
+    hx-vals='js:{ "time": new Date().toLocaleTimeString() }'>{time}</div>
+}
+
+templ HomeView(msg string) {
+@Header("/")
+<div class="flex-col items-center justify-center h-screen w-screen gap-4 inline-flex">
+    <h1 class="text-center text-yellow text-[64px] font-medium capitalize">{msg}</h1>
+    @Time("--:--:--")
+</div>
+}

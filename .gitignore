@@ -1,0 +1,4 @@
+/bin/
+**/*_templ.go
+**/*.env
+*.sum

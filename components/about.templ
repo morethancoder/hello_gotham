@@ -1,0 +1,53 @@
+package components
+
+templ externalUrl(url, text string) {
+<a href={templ.URL(url)} target="_blank">{text}</a>
+}
+
+templ aboutDev() {
+<div class="text-left self-center">
+    <h2 class="text-center text-yellow text-2xl capitalize font-medium">about MTC (More Than Coder)</h2>
+    <span>
+        <br></br>
+        MTC, which stands for  <span class="before:block before:absolute before:-inset-1 before:-skew-y-3 
+            before:bg-sky-500 relative inline-block font-bold"><span class="relative text-white">More Than Coder</span></span>,
+        is a brand that represents our team of developers. We believe in doing more than just coding;
+         If you're looking for a team that goes beyond
+        traditional coding boundaries, MTC might be the right fit for you.
+    </span>
+</div>
+}
+
+templ AboutView() {
+@Header("/about")
+<div class="flex-col items-center justify-center h-screen w-screen gap-8 inline-flex
+    px-[82px] sm:px-[128px]  xl:px-[600px]">
+    <div class="">
+        <h2 class="text-center text-yellow text-2xl font-medium  capitalize">about GOTHAM</h2>
+        <br></br><span>This is the <span class="before:block before:absolute before:-inset-1 before:-skew-y-3 
+            before:bg-sky-500 relative inline-block font-bold"><span class="relative text-white">GOTHAM</span></span>,
+        web stack showcase app,
+            <br></br>A simple web application showcasing the power of the GOTHAM stack.
+            <br></br>GOTHAM web stack is using the following technologies:
+        </span>
+        <ul class="list-disc list-inside text-left">
+            <li><span class="text-blue">GO</span> <span class="underline decoration-blue text-light hover:text-green">
+                    @externalUrl("https://go.dev/doc/","(Go Programming Language)") </span></li>
+            <li><span class="text-blue">T</span> <span class="underline decoration-blue text-light hover:text-green">
+                    @externalUrl("https://templ.guide/","(A-h Templ)")</span></li>
+            <li><span class="text-blue">H</span> <span class="underline decoration-blue text-light hover:text-green">
+                    @externalUrl("https://htmx.org/","(HTMX)")</span></li>
+            <li><span class="text-blue">A</span> <span class="underline decoration-blue text-light hover:text-green">
+                    @externalUrl("https://tailwindcss.com/docs/installation","(Tailwind CSS)")</span></li>
+            <li><span class="text-blue">M</span> <span class="underline decoration-blue text-light hover:text-green">
+                    @externalUrl("https://mariadb.com","(MariaDB)")</span></li>
+        </ul>
+        <br></br>
+        <br></br>
+
+        @aboutDev()
+    </div>
+    <br></br>
+    <span class="text-center text-gray/[1]">Thank you for choosing GOTHAM Web Stack!</span>
+</div>
+}

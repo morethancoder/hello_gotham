@@ -1,0 +1,25 @@
+package components
+
+//script CurrentRoute() {
+// var currentRoute = window.location.href;
+// console.log("Current Route: " + currentRoute);
+//}
+
+templ Layout(route string) {
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GOTHAM</title>
+    <script src="static/js/htmx.min.js"></script>
+    <link href="static/css/styles.css" rel="stylesheet" />
+</head>
+
+<body class="font-sans bg-dark text-light" >
+    <main id="view" hx-swap="innerHTML" hx-get={route} hx-trigger="load"></main>
+</body>
+
+</html>
+}

@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.nav-item {
+    @apply p-2 cursor-pointer text-sm opacity-60 text-light hover:opacity-100 uppercase 
+}
+
+.selected {
+    @apply will-change-transform transform duration-300 ease-in-out border-b-2 border-yellow opacity-100
+}
+
+.button { 
+    @apply cursor-pointer hover:bg-gray active:bg-blue
+        text-center text-light font-bold uppercase
+        select-none p-2 rounded-lg 
+}

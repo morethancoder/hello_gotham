@@ -1,0 +1,7 @@
+#change me into .env
+#fill me with mariadb credentials
+
+DB_USER="your db user"
+DB_PASS="your db password"
+DB_NAME="your db name"
+
